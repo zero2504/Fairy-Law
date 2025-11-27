@@ -61,9 +61,82 @@ Powershell example:
 Set-ProcessMitigation -System -Enable MicrosoftSignedOnly
 ```
 
+
+In addition to the MicrosoftSignedOnly policy, there are several other policies that can be configured. 
+A full list is available on the Microsoft’s documentation.
+
+
+<img width="957" height="618" alt="image" src="https://github.com/user-attachments/assets/2257c1f2-f1a5-4bac-8183-b63cb1fa2563" />
+
+---
+## Configuring MitigationOptions via Windows-API
+
+
 The same configuration can be applied programmatically by writing the corresponding 20-byte bitmask using `RegSetValueExA`.
 
 
+Opening or creating the registry key
+```c
+ // Open or create the registry key
+LONG result = RegCreateKeyExA(
+            HKEY_LOCAL_MACHINE,              // root hive
+            subkey,                          // subkey path
+            0,
+            NULL,                            // class type (unused)
+            REG_OPTION_NON_VOLATILE,         // key persists after reboot
+            KEY_WRITE | KEY_READ,            // access rights
+            NULL,                            // security attributes
+            &hKey,                           // returned key handle
+            &disposition                     // tells if key was created or opened
+        );
+
+        if (result != ERROR_SUCCESS) {
+            printf("Error opening/creating registry key: %ld\n", result);
+            return 1;
+        }
+
+        if (disposition == REG_CREATED_NEW_KEY) {
+            printf("Registry key was created.\n");
+        }
+        else {
+            printf("Registry key already exists.\n");
+        }
+
+```
+
+
+Writing the MitigationOptions value
+```c
+// The REG_BINARY value for MicrosoftSignedOnly
+        BYTE mitigationValue[] = {
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x10, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00
+        };
+
+// Set or overwrite the REG_BINARY value
+        result = RegSetValueExA(
+            hKey,
+            valueName,                       // value name
+            0,
+            REG_BINARY,                      // binary value
+            mitigationValue,                 // data buffer
+            sizeof(mitigationValue)          // size of the binary data
+        );
+
+        if (result != ERROR_SUCCESS) {
+            printf("Error writing value: %ld\n", result);
+            RegCloseKey(hKey);
+            return 1;
+        }
+
+        printf("MitigationOptions successfully written.\n");
+
+        RegCloseKey(hKey);
+
+```
 ---
 ## Limitations for Attackers
 
