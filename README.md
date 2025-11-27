@@ -5,7 +5,7 @@
 
 
 > **Full technical report available on the Orange Cyberdefense Blog.**  
-> (Link will be added once published)
+> [(Link for the technical report)](https://www.orangecyberdefense.com/global/blog/cybersecurity/fairy-law)
 
 <img width="700" height="700" alt="FairyLaw" src="https://github.com/user-attachments/assets/93613a97-e654-452c-b0e6-fd3a010ae46c" />
 
