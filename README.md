@@ -153,6 +153,17 @@ Attackers must rely instead on techniques that do not require DLL loading, such 
 
 Enforcing `MicrosoftSignedOnly` globally affects not only security products but also numerous legitimate applications. Many third-party programs depend on non-Microsoft-signed libraries and may therefore fail to start under this policy. While there are Windows mechanisms that allow fine-grained exceptions for specific executables, these do not change the fact that enabling the policy system-wide creates a highly unstable environment and can selectively disable security-critical components.
 
+Powershell example:
+<img width="1394" height="626" alt="PowershellScreen" src="https://github.com/user-attachments/assets/2bbd1a28-543a-44db-998d-95169b876a36" />
+
+
+Firefox:
+<img width="1232" height="184" alt="IFEO-Key" src="https://github.com/user-attachments/assets/00551464-e0b1-4898-bfef-c5597a5af3eb" />
+
+
+<img width="640" height="400" alt="IFEO-Exclusion" src="https://github.com/user-attachments/assets/e3525b71-9abe-4810-85a0-956a547e87c6" />
+
+
 
 ---
 ## Conclusion
